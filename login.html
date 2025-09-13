@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Attendance System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      padding: px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      width: 350px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    input, select, button {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button {
+      background: #2575fc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #1e63d3;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>Login</h1>
+    <form id="loginForm" onsubmit="return loginUser(event)">
+      <select id="role" required>
+        <option value="">-- Select Role --</option>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+      </select>
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    function loginUser(event) {
+      event.preventDefault();
+
+      const role = document.getElementById("role").value;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // NOTE: In real system → verify via backend
+      if (role === "student") {
+        window.location.href = "student.html";
+      } else if (role === "teacher") {
+        window.location.href = "teacher.html";
+      } else {
+        alert("Please select a valid role.");
+      }
+    }
+  </script>
+</body>
+</html>

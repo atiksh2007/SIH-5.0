@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #2196F3;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Student Attendance Details</h1>
+  <table id="attendanceTable">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Present</th>
+        <th>Absent / Late</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be injected here -->
+    </tbody>
+  </table>
+
+  <button onclick="downloadCSV()">Export as CSV</button>
+
+  <script>
+    // Load attendance from localStorage
+    const students = JSON.parse(localStorage.getItem('studentsAttendance')) || [];
+
+    const tbody = document.getElementById('attendanceTable').querySelector('tbody');
+
+    students.forEach(s => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${s.name}</td>
+        <td>${s.present}</td>
+        <td>${s.absent}</td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    // Export table as CSV
+    function downloadCSV() {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "Name,Present,Absent/Late\n";
+students.forEach(s => {
+ csvContent += `${s.name},${s.present},${s.absent}\n`;
+});
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "attendance_details.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

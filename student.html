@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; }
+    h1 { text-align: center; color: #333; }
+    .container { max-width: 900px; margin: auto; padding: 20px; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    button { background: #4CAF50; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #45a049; }
+    canvas { margin-top: 20px; }
+    /* Navbar */
+    .navbar { background: #2575fc; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .navbar h2 { margin: 0; }
+    .nav-links a { color: white; margin-left: 20px; text-decoration: none; font-weight: bold; }
+    .nav-links a:hover { text-decoration: underline; }
+    /* Calendar */
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px; }
+    .day { padding: 10px; text-align: center; border-radius: 8px; background: #f0f0f0; }
+    .present { background: #c8e6c9; color: #256029; font-weight: bold; }
+    .absent { background: #ffcdd2; color: #b71c1c; font-weight: bold; }
+    .header { font-weight: bold; background: #ddd; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>Student Portal</h2>
+    <div class="nav-links">
+      <a href="student.html">Home</a>
+      <a href="student.html">Dashboard</a>
+      <a href="login.html">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Welcome, Student</h1>
+
+    <div class="card">
+      <h2>Face Recognition Attendance</h2>
+       <a href="index.html">Scan face</a>
+    </div>
+
+    <div class="card">
+      <h2>Monthly Attendance</h2>
+      <canvas id="monthlyChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Yearly Attendance Trend</h2>
+      <canvas id="yearlyChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Attendance Calendar (September 2025)</h2>
+      <div class="calendar" id="calendar"></div>
+    </div>
+  </div>
+
+  <script>
+    // Monthly attendance data (example)
+   /// p=document.getElementById("p1");
+          //p.innerText = `${bestMatch.label} is Present ✅`;
+    const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+    new Chart(monthlyCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+          label: 'Attendance %',
+          data: [80, 90, 75, 85, 95],
+          backgroundColor: 'rgba(54, 162, 235, 0.7)'
+        }]
+      }
+    });
+
+    // Yearly trend
+    const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+    new Chart(yearlyCtx, {
+      type: 'line',
+      data: {
+        labels: ['2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+          label: 'Yearly Avg Attendance %',
+          data: [70, 75, 80, 85, 88],
+          borderColor: 'rgba(255, 99, 132, 1)',
+          fill: false,
+          tension: 0.3
+        }]
+      }
+    });
+
+    // Calendar data (dummy: present/absent)
+    const attendance = {
+      1: "P", 2: "A", 3: "P", 4: "P", 5: "A", 6: "P", 7: "P",
+      8: "P", 9: "A", 10: "P", 11: "P", 12: "P", 13: "A", 14: "P",
+      15: "P", 16: "P", 17: "A", 18: "P", 19: "P", 20: "P", 21: "P",
+      22: "A", 23: "P", 24: "P", 25: "A", 26: "P", 27: "P", 28: "P",
+      29: "P", 30: "A"
+    };
+
+    function generateCalendar() {
+      const calendar = document.getElementById("calendar");
+      const daysOfWeek = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      
+      // Add headers
+      daysOfWeek.forEach(day => {
+        const div = document.createElement("div");
+        div.classList.add("day","header");
+        div.textContent = day;
+        calendar.appendChild(div);
+      });
+
+      // September 2025 starts on Monday (1st Sept is Monday)
+      const startDay = 1; 
+      const totalDays = 30;
+
+      // Empty cells for previous month
+      for (let i = 0; i < startDay; i++) {
+        const div = document.createElement("div");
+        div.classList.add("day");
+        calendar.appendChild(div);
+      }
+
+      // Days with attendance
+      for (let d = 1; d <= totalDays; d++) {
+        const div = document.createElement("div");
+        div.classList.add("day");
+        if (attendance[d] === "P") {
+          div.classList.add("present");
+          div.textContent = d + " ✅";
+        } else if (attendance[d] === "A") {
+          div.classList.add("absent");
+          div.textContent = d + " ❌";
+        } else {
+          div.textContent = d;
+        }
+        calendar.appendChild(div);
+      }
+    }
+
+    generateCalendar();
+  </script>
+</body>
+</html>

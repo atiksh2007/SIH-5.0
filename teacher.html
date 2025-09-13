@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; }
+    h1 { text-align: center; color: #333; }
+    .container { max-width: 1000px; margin: auto; padding: 20px; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    button { background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; }
+    button:hover { background: #0b7dda; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    table, th, td { border: 1px solid #ddd; }
+    th, td { padding: 10px; text-align: center; }
+    /* Navbar */
+    .navbar { background: #ff9800; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .navbar h2 { margin: 0; }
+    .nav-links a { color: white; margin-left: 20px; text-decoration: none; font-weight: bold; }
+    .nav-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>Teacher Portal</h2>
+    <div class="nav-links">
+      <a href="teacher.html">Home</a>
+      <a href="teacher.html">Dashboard</a>
+      <a href="login.html">Logout</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Welcome, Teacher</h1>
+
+    <div class="card">
+      <h2>Class Attendance Summary</h2>
+      <canvas id="summaryChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>Mark Attendance</h2>
+      <table>
+        <thead>
+          <tr><th>Roll No</th><th>Name</th><th>Status</th></tr>
+        </thead>
+        <tbody id="studentTable">
+          <tr><td>101</td><td>Atiksh </td><td><button onclick="markPresent(this)">Present</button></td></tr>
+          <tr><td>102</td><td>Mustafa</td><td><button onclick="markPresent(this)">Present</button></td></tr>
+          <tr><td>103</td><td>Aryan</td><td><button onclick="markPresent(this)">Present</button></td></tr>
+         <tr><td>104</td><td>Pravardha</td><td><button onclick="markPresent(this)">Present</button></td></tr>
+    <tr><td>105</td><td>Sarthak</td><td><button onclick="markPresent(this)">Present</button></td></tr>
+        <tr><td>106</td><td>Yashika</td><td><button onclick="markPresent(this)">Present</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Attendance summary (example)
+    const ctx = document.getElementById('summaryChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Present', 'Absent'],
+        datasets: [{
+          data: [25, 5],
+          backgroundColor: ['#4CAF50', '#f44336']
+        }]
+      }
+    });
+
+    // Function to mark student present
+    function markPresent(button) {
+      button.parentElement.innerHTML = "✔ Present";
+    }
+  </script>
+</body>
+</html>
